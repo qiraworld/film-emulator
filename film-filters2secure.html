@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline';">
+  <title>Genariq Film Emulator</title>
+  <link rel="stylesheet" href="film-emulator-styles.css">
+  
+</head>
+<body>
+  <div class="language-selector">
+    <select id="language-select" aria-label="Select Language">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="zh">中文</option>
+      <option value="hi">हिन्दी</option>
+      <option value="ar">العربية</option>
+      <option value="fr">Français</option>
+      <option value="pt">Português</option>
+      <option value="ja">日本語</option>
+      <option value="de">Deutsch</option>
+      <option value="ko">한국어</option>
+      <option value="haw">Hawaiian</option>
+      <option value="tl">Tagalog</option>
+      <option value="ceb">Cebuano</option>
+    </select>
+  </div>
+
+  <div class="container">
+    <h1 data-i18n="title">Genariq Film Emulator</h1>
+
+    <div class="upload-area" id="drop-area">
+      <p data-i18n="dropText">Drag and drop an image here, or click to select a file</p>
+      <input type="file" id="fileElem" accept="image/*" style="display:none" aria-label="Upload Image">
+    </div>
+
+    <div class="filters" id="filters"></div>
+
+    <div class="controls">
+      <div class="control-group">
+        <label for="grain-amount" data-i18n="grainAmount">Grain Amount:</label>
+        <input type="range" id="grain-amount" min="0" max="1" step="0.01" value="0.3" aria-labelledby="grain-amount">
+        <output for="grain-amount" id="grain-output">0.3</output>
+      </div>
+      <div class="control-group">
+        <label for="grain-size" data-i18n="grainSize">Grain Size:</label>
+        <input type="range" id="grain-size" min="0.5" max="3" step="0.1" value="1" aria-labelledby="grain-size">
+        <output for="grain-size" id="grain-size-output">1</output>
+      </div>
+    </div>
+
+    <div id="preview-container">
+      <img id="preview" alt="Preview of filtered image">
+      <canvas id="grain-overlay"></canvas>
+    </div>
+
+    <a href="https://websim.ai/filter-ai/download" id="download" download="filtered_image.jpg" data-i18n="download">Download Filtered Image</a>
+  </div>
+
+    <!-- Load scripts in correct order -->
+    <script src="{{ 'film-emulator-filters.js.liquid' | asset_url }}"></script>
+    <script src="{{ 'film-emulator-i18n.js.liquid' | asset_url }}"></script>
+    <script src="{{ 'film-emulator-imageProcessing.js.liquid' | asset_url }}"></script>
+    <script src="{{ 'film-emulator-main.js.liquid' | asset_url }}"></script>
+  <script>
+    // Event listeners for accessibility and security
+    document.getElementById('fileElem').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        // Process file securely
+        console.log('File uploaded:', file.name);
+      } else {
+        alert('Please upload a valid image file.');
+      }
+    });
+
+    document.getElementById('drop-area').addEventListener('click', () => {
+      document.getElementById('fileElem').click();
+    });
+
+    document.getElementById('grain-amount').addEventListener('input', (e) => {
+      document.getElementById('grain-output').textContent = e.target.value;
+    });
+
+    document.getElementById('grain-size').addEventListener('input', (e) => {
+      document.getElementById('grain-size-output').textContent = e.target.value;
+    });
+  </script>
+</body>
+</html>
