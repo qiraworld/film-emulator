@@ -1,0 +1,160 @@
+const translations = {
+  en: {
+    title: "Genariq Film Emulator",
+    dropText: "Drag and drop an image here, or click to select a file",
+    grainAmount: "Grain Amount:",
+    grainSize: "Grain Size:",
+    download: "Download Filtered Image"
+  },
+  es: {
+    title: "Emulador de Película Genariq",
+    dropText: "Arrastra y suelta una imagen aquí, o haz clic para seleccionar un archivo",
+    grainAmount: "Cantidad de grano:",
+    grainSize: "Tamaño del grano:",
+    download: "Descargar imagen filtrada"
+  },
+  zh: {
+    title: "Genariq 电影模拟器",
+    dropText: "在此处拖放图片，或点击选择文件",
+    grainAmount: "颗粒数量：",
+    grainSize: "颗粒大小：",
+    download: "下载已过滤图片"
+  },
+  hi: {
+    title: "Genariq फ़िल्म एमुलेटर",
+    dropText: "यहाँ छवि खींचें और छोड़ें, या फ़ाइल चुनने के लिए क्लिक करें",
+    grainAmount: "ग्रेन की मात्रा:",
+    grainSize: "ग्रेन का आकार:",
+    download: "फ़िल्टर की गई छवि डाउनलोड करें"
+  },
+  ar: {
+    title: "محاكي أفلام جيناريق",
+    dropText: "اسحب وأفلت صورة هنا، أو انقر لاختيار ملف",
+    grainAmount: "كمية التحبيب:",
+    grainSize: "حجم التحبيب:",
+    download: "تحميل الصورة المفلترة"
+  },
+  fr: {
+    title: "Émulateur de Film Genariq",
+    dropText: "Glissez-déposez une image ici ou cliquez pour sélectionner un fichier",
+    grainAmount: "Quantité de grain :",
+    grainSize: "Taille du grain :",
+    download: "Télécharger l'image filtrée"
+  },
+  pt: {
+    title: "Emulador de Filme Genariq",
+    dropText: "Arraste e solte uma imagem aqui ou clique para selecionar um arquivo",
+    grainAmount: "Quantidade de grão:",
+    grainSize: "Tamanho do grão:",
+    download: "Baixar imagem filtrada"
+  },
+  ja: {
+    title: "Genariq フィルムエミュレータ",
+    dropText: "ここに画像をドラッグ＆ドロップ、またはクリックしてファイルを選択",
+    grainAmount: "グレイン量：",
+    grainSize: "グレインサイズ：",
+    download: "フィルター済み画像をダウンロード"
+  },
+  de: {
+    title: "Genariq Film-Emulator",
+    dropText: "Bild hier ablegen oder klicken, um eine Datei auszuwählen",
+    grainAmount: "Körnungsmenge:",
+    grainSize: "Körnungsgröße:",
+    download: "Gefiltertes Bild herunterladen"
+  },
+  ko: {
+    title: "Genariq 필름 에뮬레이터",
+    dropText: "여기에 이미지를 끌어다 놓거나 클릭하여 파일 선택",
+    grainAmount: "그레인 양:",
+    grainSize: "그레인 크기:",
+    download: "필터된 이미지 다운로드"
+  },
+  haw: {
+    title: "Genariq Kiʻi Hoʻohālike",
+    dropText: "Kaomi a wehe i ka kiʻi ma ʻaneʻi, a i ʻole kaomi e koho i ka waihona",
+    grainAmount: "Ka nui o ka ʻaleʻale:",
+    grainSize: "Ka nui o ka ʻaleʻale:",
+    download: "Hoʻoiho i ka kiʻi i kānana ʻia"
+  },
+  tl: {
+    title: "Genariq Film Emulator",
+    dropText: "I-drag at i-drop ang larawan dito, o i-click upang pumili ng file",
+    grainAmount: "Dami ng Grain:",
+    grainSize: "Laki ng Grain:",
+    download: "I-download ang Na-filter na Larawan"
+  },
+  ceb: {
+    title: "Genariq Film Emulator",
+    dropText: "I-drag ug i-drop ang hulagway dinhi, o i-click aron mopili og file",
+    grainAmount: "Gidaghanon sa Grain:",
+    grainSize: "Gidak-on sa Grain:",
+    download: "I-download ang Na-filter nga Hulagway"
+  }
+};
+
+if (typeof FILTERS !== 'undefined') {
+  Object.entries(FILTERS).forEach(([key, filter]) => {
+    Object.keys(translations).forEach(lang => {
+      translations[lang][`filter_${key}`] = filter.name;
+    });
+  });
+}
+
+let currentLanguage = localStorage.getItem('selectedLanguage') || 
+                     navigator.language.split('-')[0] || 
+                     'en';
+
+document.documentElement.lang = currentLanguage;
+
+const languageSelect = document.getElementById('language-select');
+if (languageSelect) {
+  languageSelect.value = currentLanguage;
+  languageSelect.addEventListener('change', (e) => {
+    setLanguage(e.target.value);
+  });
+}
+
+function setLanguage(lang) {
+  if (!translations[lang]) {
+    lang = 'en'; // Fallback to English
+  }
+  
+  currentLanguage = lang;
+  document.documentElement.lang = lang;
+  localStorage.setItem('selectedLanguage', lang);
+  
+  document.querySelectorAll('[data-i18n]').forEach(element => {
+    const key = element.getAttribute('data-i18n');
+    if (translations[lang][key]) {
+      if (element.tagName === 'INPUT' && element.type === 'placeholder') {
+        element.placeholder = translations[lang][key];
+      } else {
+        element.textContent = translations[lang][key];
+      }
+    }
+  });
+
+  if (typeof FILTERS !== 'undefined') {
+    updateFilterButtonTranslations(lang);
+  }
+}
+
+function updateFilterButtonTranslations(lang) {
+  const filtersContainer = document.getElementById('filters');
+  if (!filtersContainer) return;
+  
+  const filterButtons = filtersContainer.querySelectorAll('.filter-button');
+  filterButtons.forEach(button => {
+    const filterId = button.dataset.filter;
+    if (filterId) {
+      const translationKey = `filter_${filterId}`;
+      if (translations[lang][translationKey]) {
+        button.textContent = translations[lang][translationKey];
+      }
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setLanguage(currentLanguage);
+});

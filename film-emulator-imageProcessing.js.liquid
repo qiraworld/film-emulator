@@ -1,0 +1,53 @@
+class ImageProcessor {
+  constructor() {
+    this.preview = document.getElementById('preview');
+    this.grainOverlay = document.getElementById('grain-overlay');
+    this.downloadLink = document.getElementById('download');
+  }
+
+  applyFilter(filterStyle) {
+    this.preview.style.filter = filterStyle;
+    this.updateDownloadLink();
+  }
+
+  updateGrain(amount, size) {
+    const ctx = this.grainOverlay.getContext('2d');
+
+    this.grainOverlay.width = this.preview.width;
+    this.grainOverlay.height = this.preview.height;
+
+    ctx.clearRect(0, 0, this.grainOverlay.width, this.grainOverlay.height);
+
+    const imageData = ctx.createImageData(this.grainOverlay.width, this.grainOverlay.height);
+    const data = imageData.data;
+
+    for (let i = 0; i < data.length; i += 4) {
+      const noise = Math.random() * 255 * amount;
+      data[i] = noise;
+      data[i+1] = noise;
+      data[i+2] = noise;
+      data[i+3] = 255;
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+    ctx.filter = `blur(${size}px)`;
+    ctx.drawImage(this.grainOverlay, 0, 0);
+
+    this.updateDownloadLink();
+  }
+
+  updateDownloadLink() {
+    const canvas = document.createElement('canvas');
+    canvas.width = this.preview.width;
+    canvas.height = this.preview.height;
+    const ctx = canvas.getContext('2d');
+
+    ctx.filter = this.preview.style.filter;
+    ctx.drawImage(this.preview, 0, 0, canvas.width, canvas.height);
+
+    ctx.globalCompositeOperation = 'overlay';
+    ctx.drawImage(this.grainOverlay, 0, 0, canvas.width, canvas.height);
+
+    this.downloadLink.href = canvas.toDataURL('image/jpeg');
+  }
+}

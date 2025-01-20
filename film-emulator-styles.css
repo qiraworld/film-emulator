@@ -1,0 +1,167 @@
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+  color: #444;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.upload-area {
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  background-color: #fafafa;
+  transition: background-color 0.3s;
+}
+
+.upload-area.highlight {
+  background-color: #e0e0e0;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-button {
+  padding: 8px 12px;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.9em;
+}
+
+.filter-button:hover {
+  background-color: #d0d0d0;
+  transform: translateY(-2px);
+}
+
+.filter-button.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#preview-container {
+  position: relative;
+  max-width: 100%;
+  margin-top: 20px;
+}
+
+#preview, #grain-overlay {
+  max-width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+#grain-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: overlay;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+#download {
+  display: block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+#download:hover {
+  background-color: #45a049;
+}
+
+.controls {
+  margin-top: 20px;
+}
+
+.control-group {
+  margin-bottom: 10px;
+}
+
+label {
+  display: inline-block;
+  width: 100px;
+}
+
+input[type="range"] {
+  width: 200px;
+  vertical-align: middle;
+}
+
+output {
+  display: inline-block;
+  width: 30px;
+  text-align: right;
+}
+
+.language-selector {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.language-selector select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.language-selector select:hover {
+  border-color: #999;
+}
+
+.language-selector select:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+[lang="ar"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[lang="ar"] .language-selector {
+  left: 20px;
+  right: auto;
+}
+
+[lang="ar"] input[type="range"] {
+  direction: ltr;
+}

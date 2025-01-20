@@ -1,0 +1,162 @@
+const FILTERS = {
+  kodachrome: {
+    name: 'Kodachrome',
+    style: 'saturate(1.3) contrast(1.1) brightness(1.1) sepia(0.3)'
+  },
+  polaroid: {
+    name: 'Polaroid',
+    style: 'saturate(0.8) contrast(1.2) brightness(1.1) sepia(0.2)'
+  },
+  fujifilm: {
+    name: 'Fujifilm',
+    style: 'saturate(1.3) contrast(1.1) brightness(1.1) hue-rotate(5deg)'
+  },
+  ilford: {
+    name: 'Ilford B&W',
+    style: 'grayscale(1) contrast(1.2) brightness(1.1)'
+  },
+  ektachrome: {
+    name: 'Ektachrome',
+    style: 'saturate(1.1) contrast(1.1) brightness(1.1) sepia(0.1) hue-rotate(-10deg)'
+  },
+  portra400: {
+    name: 'Portra 400',
+    style: 'saturate(1.1) contrast(1) brightness(1.1) sepia(0.1) hue-rotate(-5deg)'
+  },
+  velvia: {
+    name: 'Fuji Velvia',
+    style: 'saturate(1.5) contrast(1.3) brightness(1) hue-rotate(5deg)'
+  },
+  trix400: {
+    name: 'Tri-X 400',
+    style: 'grayscale(1) contrast(1.3) brightness(1.1) sepia(0.1)'
+  },
+  provia100f: {
+    name: 'Provia 100F',
+    style: 'saturate(1.2) contrast(1.1) brightness(1) hue-rotate(-5deg)'
+  },
+  cinestill800t: {
+    name: 'CineStill 800T',
+    style: 'saturate(1.1) contrast(1.1) brightness(1.1) sepia(0.2) hue-rotate(10deg)'
+  },
+  agfavista400: {
+    name: 'Agfa Vista 400',
+    style: 'saturate(1.2) contrast(1) brightness(1.1) sepia(0.1) hue-rotate(-10deg)'
+  },
+  lomography: {
+    name: 'Lomography',
+    style: 'saturate(1.5) contrast(1.2) brightness(1.1) hue-rotate(15deg)'
+  },
+  ektar100: {
+    name: 'Kodak Ektar 100',
+    style: 'saturate(1.4) contrast(1.2) brightness(1.05) hue-rotate(-5deg)'
+  },
+  fomapan400: {
+    name: 'Fomapan 400',
+    style: 'grayscale(1) contrast(1.25) brightness(1.05) sepia(0.05)'
+  },
+  fujipro400h: {
+    name: 'Fuji Pro 400H',
+    style: 'saturate(1.1) contrast(1.05) brightness(1.15) hue-rotate(5deg)'
+  },
+  ilfordpan400: {
+    name: 'Ilford Pan 400',
+    style: 'grayscale(1) contrast(1.3) brightness(1.15)'
+  },
+  kodakgold200: {
+    name: 'Kodak Gold 200',
+    style: 'saturate(1.2) contrast(1.1) brightness(1.05) sepia(0.1) hue-rotate(-5deg)'
+  },
+  rollei35: {
+    name: 'Rollei 35',
+    style: 'grayscale(1) contrast(1.35) brightness(1.1) sepia(0.15)'
+  },
+  fujiacros100: {
+    name: 'Fuji Acros 100',
+    style: 'grayscale(1) contrast(1.2) brightness(1.2)'
+  },
+  adoxchs100: {
+    name: 'Adox CHS 100',
+    style: 'grayscale(1) contrast(1.4) brightness(1) sepia(0.1)'
+  },
+  tmax100: {
+    name: 'Kodak T-MAX 100',
+    style: 'grayscale(1) contrast(1.15) brightness(1.1) sepia(0.05)'
+  },
+  tmax400: {
+    name: 'Kodak T-MAX 400',
+    style: 'grayscale(1) contrast(1.25) brightness(1.05) sepia(0.08)'
+  },
+  delta100: {
+    name: 'Ilford Delta 100',
+    style: 'grayscale(1) contrast(1.2) brightness(1.15) sepia(0.05)'
+  },
+  delta3200: {
+    name: 'Ilford Delta 3200',
+    style: 'grayscale(1) contrast(1.35) brightness(1) sepia(0.15)'
+  },
+  hp5plus: {
+    name: 'Ilford HP5 Plus',
+    style: 'grayscale(1) contrast(1.3) brightness(1.05) sepia(0.1)'
+  },
+  fp4plus: {
+    name: 'Ilford FP4 Plus',
+    style: 'grayscale(1) contrast(1.2) brightness(1.15) sepia(0.05)'
+  },
+  superia100: {
+    name: 'Fuji Superia 100',
+    style: 'saturate(1.2) contrast(1.1) brightness(1.05) hue-rotate(-5deg)'
+  },
+  superia400: {
+    name: 'Fuji Superia 400',
+    style: 'saturate(1.3) contrast(1.15) brightness(1.1) hue-rotate(-8deg)'
+  },
+  superia1600: {
+    name: 'Fuji Superia 1600',
+    style: 'saturate(1.4) contrast(1.2) brightness(1.15) hue-rotate(-10deg)'
+  },
+  ultramax400: {
+    name: 'Kodak Ultramax 400',
+    style: 'saturate(1.3) contrast(1.1) brightness(1.1) sepia(0.1) hue-rotate(-5deg)'
+  },
+  colorplus200: {
+    name: 'Kodak ColorPlus 200',
+    style: 'saturate(1.1) contrast(1.05) brightness(1.1) sepia(0.15) hue-rotate(-8deg)'
+  },
+  proimage100: {
+    name: 'Kodak ProImage 100',
+    style: 'saturate(1.2) contrast(1.1) brightness(1.05) sepia(0.05) hue-rotate(-3deg)'
+  },
+  portra160: {
+    name: 'Kodak Portra 160',
+    style: 'saturate(1.1) contrast(0.95) brightness(1.1) sepia(0.05) hue-rotate(-3deg)'
+  },
+  portra800: {
+    name: 'Kodak Portra 800',
+    style: 'saturate(1.2) contrast(1.1) brightness(1.15) sepia(0.1) hue-rotate(-8deg)'
+  },
+  reala100: {
+    name: 'Fuji Reala 100',
+    style: 'saturate(1.15) contrast(1.05) brightness(1.05) hue-rotate(3deg)'
+  },
+  natura1600: {
+    name: 'Fuji Natura 1600',
+    style: 'saturate(1.3) contrast(1.2) brightness(1.2) hue-rotate(-5deg)'
+  },
+  venus800: {
+    name: 'Fuji Venus 800',
+    style: 'saturate(1.25) contrast(1.15) brightness(1.1) hue-rotate(-3deg)'
+  },
+  agfacolor200: {
+    name: 'Agfa Color 200',
+    style: 'saturate(1.2) contrast(1.05) brightness(1.1) sepia(0.1) hue-rotate(-5deg)'
+  },
+  agfaultra50: {
+    name: 'Agfa Ultra 50',
+    style: 'saturate(1.3) contrast(1.15) brightness(1.05) sepia(0.05) hue-rotate(-3deg)'
+  },
+  sensia100: {
+    name: 'Fuji Sensia 100',
+    style: 'saturate(1.4) contrast(1.2) brightness(1.1) hue-rotate(5deg)'
+  }
+};

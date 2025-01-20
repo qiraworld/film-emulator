@@ -1,0 +1,75 @@
+const imageProcessor = new ImageProcessor();
+let currentFilter = '';
+
+// Initialize filter buttons
+const filtersContainer = document.getElementById('filters');
+Object.entries(FILTERS).forEach(([id, filter]) => {
+  const button = document.createElement('button');
+  button.className = 'filter-button';
+  button.dataset.filter = id;
+  button.textContent = filter.name;
+  button.dataset.i18n = `filter_${id}`; // Add data-i18n attribute for translation
+  button.addEventListener('click', () => {
+    document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    currentFilter = id;
+    imageProcessor.applyFilter(FILTERS[id].style);
+  });
+  filtersContainer.appendChild(button);
+});
+
+// File upload handling
+const dropArea = document.getElementById('drop-area');
+const fileElem = document.getElementById('fileElem');
+
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, preventDefaults, false);
+});
+
+function preventDefaults(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
+['dragenter', 'dragover'].forEach(eventName => {
+  dropArea.addEventListener(eventName, () => dropArea.classList.add('highlight'));
+});
+
+['dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, () => dropArea.classList.remove('highlight'));
+});
+
+dropArea.addEventListener('drop', e => handleFiles(e.dataTransfer.files));
+dropArea.addEventListener('click', () => fileElem.click());
+fileElem.addEventListener('change', () => handleFiles(fileElem.files));
+
+function handleFiles(files) {
+  const file = files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      preview.src = reader.result;
+      preview.onload = () => {
+        if (currentFilter) {
+          imageProcessor.applyFilter(FILTERS[currentFilter].style);
+        }
+        updateGrainFromInputs();
+      };
+    };
+  }
+}
+
+// Grain controls
+const grainAmount = document.getElementById('grain-amount');
+const grainSize = document.getElementById('grain-size');
+
+function updateGrainFromInputs() {
+  grainAmount.nextElementSibling.value = grainAmount.value;
+  grainSize.nextElementSibling.value = grainSize.value;
+  imageProcessor.updateGrain(parseFloat(grainAmount.value), parseFloat(grainSize.value));
+}
+
+grainAmount.addEventListener('input', updateGrainFromInputs);
+grainSize.addEventListener('input', updateGrainFromInputs);
+preview.addEventListener('load', updateGrainFromInputs);
